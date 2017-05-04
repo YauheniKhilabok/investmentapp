@@ -13,5 +13,5 @@ public interface EmployeeService {
 
     Employee getById(long id);
 
-    Page<Employee> getEmployees(int pageNumber, int limit);
+    Page<Employee> getEmployees(int pageNumber, int limit, String surname);
 }

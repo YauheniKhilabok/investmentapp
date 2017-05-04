@@ -68,8 +68,9 @@ public class EmployeeController {
 
     @GetMapping
     public ResponseEntity<Page<EmployeeDto>> getEmployees(@RequestParam(name = "page", required = false, defaultValue = "1") int pageNumber,
-                                                          @RequestParam(name = "limit", required = false, defaultValue = "50") int limit) {
-        Page<Employee> employees = employeeService.getEmployees(pageNumber, limit);
+                                                          @RequestParam(name = "limit", required = false, defaultValue = "50") int limit,
+                                                          @RequestParam(name = "surname", required = false) String surname) {
+        Page<Employee> employees = employeeService.getEmployees(pageNumber, limit, surname);
         return new ResponseEntity<>(employees.map(employeeConverter), HttpStatus.OK);
     }
 }

@@ -63,13 +63,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Page<Employee> getEmployees(int pageNumber, int limit) {
+    public Page<Employee> getEmployees(int pageNumber, int limit, String surname) {
         if (serviceHelper.checkLimitAllowableSize(limit)) {
             throw new InvalidLimitException("Limit value is not allowed.");
         }
         int offset = pageNumber - 1;
         PageRequest pageRequest = new PageRequest(offset, limit);
-        return employeeRepository.findAll(pageRequest);
+        if (surname == null) {
+            return employeeRepository.findAll(pageRequest);
+        } else {
+            return employeeRepository.findBySurname(surname, pageRequest);
+        }
     }
-
 }
