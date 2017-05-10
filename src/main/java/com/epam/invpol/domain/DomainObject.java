@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @MappedSuperclass
-public abstract class DomainObject<T extends Serializable> {
+public abstract class DomainObject<T extends Serializable> implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

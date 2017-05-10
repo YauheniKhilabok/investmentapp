@@ -4,12 +4,17 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.Column;
+import javax.persistence.JoinTable;
 import javax.persistence.FetchType;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "employees")
-public class Employee extends DomainObject<Long> {
+public class Employee extends DomainObject<Long> implements Serializable{
 
     @Column(name = "name", nullable = false, length = 45)
     private String name;
@@ -26,6 +31,11 @@ public class Employee extends DomainObject<Long> {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_department", nullable = false)
     private Department department;
+
+    @ManyToMany
+    @JoinTable(name = "employees_programs", joinColumns = @JoinColumn(name = "id_employee"),
+            inverseJoinColumns = @JoinColumn(name = "id_program"))
+    private Set<Program> programs = new HashSet<>();
 
     public Employee() {
     }
@@ -78,11 +88,19 @@ public class Employee extends DomainObject<Long> {
         this.department = department;
     }
 
+    public Set<Program> getPrograms() {
+        return programs;
+    }
+
+    public void setPrograms(Set<Program> programs) {
+        this.programs = programs;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
                 "id='" + getId() + '\'' +
-                "name='" + name + '\'' +
+                ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", patronymic='" + patronymic + '\'' +
                 ", position='" + position + '\'' +

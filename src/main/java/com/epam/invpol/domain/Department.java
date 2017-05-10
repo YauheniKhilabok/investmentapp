@@ -4,14 +4,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "departments")
-public class Department extends DomainObject<Long> {
+public class Department extends DomainObject<Long> implements Serializable{
 
-    @Column(name = "name", nullable = false, length = 100)
+    @Column(name = "name", nullable = false, unique = true, length = 100)
     private String name;
 
     @Column(name = "activity", nullable = false)
@@ -57,7 +58,7 @@ public class Department extends DomainObject<Long> {
     public String toString() {
         return "Department{" +
                 "id='" + getId() + '\'' +
-                "name='" + name + '\'' +
+                ", name='" + name + '\'' +
                 ", activity='" + activity + '\'' +
                 '}';
     }

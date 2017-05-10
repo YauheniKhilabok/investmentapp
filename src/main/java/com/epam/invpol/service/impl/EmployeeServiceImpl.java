@@ -1,7 +1,9 @@
 package com.epam.invpol.service.impl;
 
 import com.epam.invpol.domain.Employee;
+import com.epam.invpol.domain.Program;
 import com.epam.invpol.repository.EmployeeRepository;
+import com.epam.invpol.repository.ProgramRepository;
 import com.epam.invpol.service.EmployeeService;
 import com.epam.invpol.service.exception.EntityAlreadyExistException;
 import com.epam.invpol.service.exception.EntityNotFoundException;
@@ -12,11 +14,16 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Set;
+
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private ProgramRepository programRepository;
 
     @Autowired
     private ServiceHelper serviceHelper;
@@ -30,6 +37,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             }
         }
         Employee savedEmployee = employeeRepository.save(employee);
+        updateParticipantsNumber(true, employee);
         return employeeRepository.findOne(savedEmployee.getId());
     }
 
@@ -51,6 +59,26 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void remove(Employee employee) {
         getById(employee.getId());
         employeeRepository.delete(employee);
+        updateParticipantsNumber(false, employee);
+    }
+
+    private void updateParticipantsNumber(boolean flag, Employee employee) {
+        Set<Program> programs = employee.getPrograms();
+        if(programs.size() == 0){
+            Employee foundEmployee = employeeRepository.getOne(employee.getId());
+            programs = foundEmployee.getPrograms();
+        }
+        for (Program program : programs) {
+            Program foundProgram = programRepository.findOne(program.getId());
+            int participantsNumber = foundProgram.getParticipantsNumber();
+            if (flag) {
+                participantsNumber++;
+            } else {
+                participantsNumber--;
+            }
+            foundProgram.setParticipantsNumber(participantsNumber);
+            programRepository.save(foundProgram);
+        }
     }
 
     @Override

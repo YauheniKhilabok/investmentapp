@@ -6,6 +6,7 @@ import com.epam.invpol.service.exception.DeleteOperationException;
 import com.epam.invpol.service.exception.EntityAlreadyExistException;
 import com.epam.invpol.service.exception.EntityNotFoundException;
 import com.epam.invpol.service.exception.InvalidLimitException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -77,6 +78,14 @@ public class ExceptionControllerAdvice {
         String errorMessage = "Limit value is not allowed. The maximum value of limit is 100";
         ExceptionDetails exceptionDetails = fillExceptionDetails(createErrorMessages(errorMessage), HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
+    }
+
+    @ErrorLoggable
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ExceptionDetails> handleConstraintViolationException(DataIntegrityViolationException e) {
+        String errorMessage = "Removal is impossible, since other entities depend on this entity.";
+        ExceptionDetails exceptionDetails = fillExceptionDetails(createErrorMessages(errorMessage), HttpStatus.INTERNAL_SERVER_ERROR.value());
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ErrorLoggable

@@ -3,7 +3,9 @@ package com.epam.invpol.dto;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class EmployeeDto extends DtoObject<Long> implements Serializable {
 
@@ -23,6 +25,8 @@ public class EmployeeDto extends DtoObject<Long> implements Serializable {
 
     @NotNull(message = "{validation.departmentNotNull}")
     private DepartmentDto department;
+
+    private Set<ProgramDto> programs = new HashSet<>();
 
     public EmployeeDto() {
     }
@@ -73,6 +77,14 @@ public class EmployeeDto extends DtoObject<Long> implements Serializable {
 
     public void setDepartment(DepartmentDto department) {
         this.department = department;
+    }
+
+    public Set<ProgramDto> getPrograms() {
+        return programs;
+    }
+
+    public void setPrograms(Set<ProgramDto> programs) {
+        this.programs = programs;
     }
 
     @Override

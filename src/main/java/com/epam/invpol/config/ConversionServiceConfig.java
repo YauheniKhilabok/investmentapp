@@ -1,9 +1,6 @@
 package com.epam.invpol.config;
 
-import com.epam.invpol.dto.converter.DepartmentConverter;
-import com.epam.invpol.dto.converter.DepartmentDtoConverter;
-import com.epam.invpol.dto.converter.EmployeeConverter;
-import com.epam.invpol.dto.converter.EmployeeDtoConverter;
+import com.epam.invpol.dto.converter.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ConversionServiceFactoryBean;
@@ -30,6 +27,10 @@ public class ConversionServiceConfig {
         converters.add(new DepartmentDtoConverter());
         converters.add(new EmployeeConverter());
         converters.add(new EmployeeDtoConverter());
+        converters.add(new ProgramConverter());
+        converters.add(new ProgramDtoConverter());
+        converters.add(new InvestmentConverter());
+        converters.add(new InvestmentDtoConverter());
         return converters;
     }
 }

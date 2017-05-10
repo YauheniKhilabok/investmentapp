@@ -1,6 +1,6 @@
 package com.epam.invpol.repository;
 
-import com.epam.invpol.domain.Employee;
+import com.epam.invpol.domain.Program;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,10 +9,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+public interface ProgramRepository extends JpaRepository<Program, Long> {
 
-    long countByDepartmentId(long departmentId);
+    Program findByName(String name);
 
-    @Query("SELECT e FROM Employee e WHERE LOWER(e.surname) LIKE LOWER(CONCAT('%', :surname, '%'))")
-    Page<Employee> findBySurname(@Param("surname") String surname, Pageable pageRequest);
+    @Query("SELECT p FROM Program p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))")
+    Page<Program> findByName(@Param("name") String name, Pageable pageRequest);
 }
