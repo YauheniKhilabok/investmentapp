@@ -18,18 +18,18 @@ public class User extends DomainObject<Long> implements Serializable{
     @Column(name = "password", nullable = false, length = 100)
     private String password;
 
-    @Column(name = "role", nullable = false, length = 100)
-    private String role;
+    @Column(name = "status", nullable = false)
+    private boolean status;
 
     public User() {
     }
 
-    public User(Long id, String login, String email, String password, String role) {
+    public User(Long id, String login, String email, String password, boolean status) {
         super(id);
         this.login = login;
         this.email = email;
         this.password = password;
-        this.role = role;
+        this.status = status;
     }
 
     public String getLogin() {
@@ -56,12 +56,12 @@ public class User extends DomainObject<Long> implements Serializable{
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
+    public boolean getStatus() {
+        return status;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     @Override
@@ -71,7 +71,7 @@ public class User extends DomainObject<Long> implements Serializable{
                 ", login='" + login + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", role='" + role + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

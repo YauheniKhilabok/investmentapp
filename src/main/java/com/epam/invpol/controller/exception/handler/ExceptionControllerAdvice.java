@@ -2,10 +2,12 @@ package com.epam.invpol.controller.exception.handler;
 
 import com.epam.invpol.controller.exception.handler.logger.annotation.ErrorLoggable;
 import com.epam.invpol.controller.exception.handler.logger.annotation.WarnLoggable;
+import com.epam.invpol.service.exception.InvalidLimitException;
 import com.epam.invpol.service.exception.DeleteOperationException;
 import com.epam.invpol.service.exception.EntityAlreadyExistException;
 import com.epam.invpol.service.exception.EntityNotFoundException;
-import com.epam.invpol.service.exception.InvalidLimitException;
+import com.epam.invpol.service.exception.EmailAlreadyExistException;
+import com.epam.invpol.service.exception.LoginAlreadyExistException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,8 +53,13 @@ public class ExceptionControllerAdvice {
     @WarnLoggable
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ExceptionDetails> handleDomainNotFoundException(EntityNotFoundException e) {
-        String errorMessage = "Requested data not found.";
-        ExceptionDetails exceptionDetails = fillExceptionDetails(createErrorMessages(errorMessage), HttpStatus.NOT_FOUND.value());
+        ExceptionDetails exceptionDetails;
+        if (e.getErrorMessages().isEmpty()) {
+            String errorMessage = "Requested data not found.";
+            exceptionDetails = fillExceptionDetails(createErrorMessages(errorMessage), HttpStatus.NOT_FOUND.value());
+        } else {
+            exceptionDetails = fillExceptionDetails(e.getErrorMessages(), HttpStatus.NOT_FOUND.value());
+        }
         return new ResponseEntity<>(exceptionDetails, HttpStatus.NOT_FOUND);
     }
 
@@ -76,6 +83,22 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(InvalidLimitException.class)
     public ResponseEntity<ExceptionDetails> handleInvalidLimitException(InvalidLimitException e) {
         String errorMessage = "Limit value is not allowed. The maximum value of limit is 100";
+        ExceptionDetails exceptionDetails = fillExceptionDetails(createErrorMessages(errorMessage), HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
+    }
+
+    @WarnLoggable
+    @ExceptionHandler(LoginAlreadyExistException.class)
+    public ResponseEntity<ExceptionDetails> handleLoginAlreadyExistException(LoginAlreadyExistException e) {
+        String errorMessage = e.getMessage();
+        ExceptionDetails exceptionDetails = fillExceptionDetails(createErrorMessages(errorMessage), HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
+    }
+
+    @WarnLoggable
+    @ExceptionHandler(EmailAlreadyExistException.class)
+    public ResponseEntity<ExceptionDetails> handleEmailAlreadyExistException(EmailAlreadyExistException e) {
+        String errorMessage = e.getMessage();
         ExceptionDetails exceptionDetails = fillExceptionDetails(createErrorMessages(errorMessage), HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
     }

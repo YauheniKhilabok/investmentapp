@@ -14,6 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -36,6 +38,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 throw new EntityAlreadyExistException("Employee with such id already exists.");
             }
         }
+        checkOnExistence(employee);
         Employee savedEmployee = employeeRepository.save(employee);
         updateParticipantsNumber(true, employee);
         return employeeRepository.findOne(savedEmployee.getId());
@@ -50,21 +53,48 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public Employee update(Employee employee) {
         getById(employee.getId());
+        checkOnExistence(employee);
         Employee updatedEmployee = employeeRepository.save(employee);
         return getById(updatedEmployee.getId());
+    }
+
+    private void checkOnExistence(Employee employee) {
+        Set<Program> programs = employee.getPrograms();
+        if (!programs.isEmpty()) {
+            createExceptionIfEntitiesNotExist(programs);
+        }
+    }
+
+    private void createExceptionIfEntitiesNotExist(Set<Program> programs) {
+        List<String> errorMessages = new ArrayList<>();
+        fillProgramsErrorMessages(programs, errorMessages);
+        if (!errorMessages.isEmpty()) {
+            throw new EntityNotFoundException(errorMessages);
+        }
+    }
+
+    private void fillProgramsErrorMessages(Set<Program> programs, List<String> errorMessages) {
+        for (Program program : programs) {
+            Program foundProgram = programRepository.findOne(program.getId());
+            boolean flag = foundProgram == null;
+            if (flag) {
+                String errorMessage = "Program with id #" + program.getId() + " is not exist.";
+                errorMessages.add(errorMessage);
+            }
+        }
     }
 
     @Override
     @Transactional
     public void remove(Employee employee) {
         getById(employee.getId());
-        employeeRepository.delete(employee);
         updateParticipantsNumber(false, employee);
+        employeeRepository.delete(employee);
     }
 
     private void updateParticipantsNumber(boolean flag, Employee employee) {
         Set<Program> programs = employee.getPrograms();
-        if(programs.size() == 0){
+        if (programs.size() == 0) {
             Employee foundEmployee = employeeRepository.getOne(employee.getId());
             programs = foundEmployee.getPrograms();
         }

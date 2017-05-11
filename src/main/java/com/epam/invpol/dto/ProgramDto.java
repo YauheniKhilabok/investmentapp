@@ -2,11 +2,12 @@ package com.epam.invpol.dto;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class ProgramDto extends DtoObject<Long> {
+public class ProgramDto extends DtoObject<Long> implements Serializable{
 
     @NotNull(message = "{validation.programNameNotNull}")
     @Size(min = 1, max = 100, message = "{validation.programNameLength}")
@@ -32,7 +33,8 @@ public class ProgramDto extends DtoObject<Long> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProgramDto that = (ProgramDto) o;
-        return participantsNumber == that.participantsNumber &&
+        return Objects.equals(getId(), that.getId()) &&
+                participantsNumber == that.participantsNumber &&
                 participantsMaxNumber == that.participantsMaxNumber &&
                 duration == that.duration &&
                 Objects.equals(name, that.name) &&

@@ -31,6 +31,8 @@ public class ConversionServiceConfig {
         converters.add(new ProgramDtoConverter());
         converters.add(new InvestmentConverter());
         converters.add(new InvestmentDtoConverter());
+        converters.add(new UserConverter());
+        converters.add(new UserDtoConverter());
         return converters;
     }
 }

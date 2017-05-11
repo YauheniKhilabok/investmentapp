@@ -1,9 +1,10 @@
 package com.epam.invpol.dto;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class InvestmentDto extends DtoObject<Long> {
+public class InvestmentDto extends DtoObject<Long> implements Serializable{
 
     @NotNull(message = "{validation.investmentAmountNotNull}")
     private float amount;
