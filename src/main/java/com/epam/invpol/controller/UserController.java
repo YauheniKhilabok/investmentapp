@@ -23,11 +23,15 @@ import javax.validation.Valid;
 @RequestMapping("/users")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    private final ConversionService conversionService;
 
     @Autowired
-    private ConversionService conversionService;
+    public UserController(UserService userService, ConversionService conversionService) {
+        this.userService = userService;
+        this.conversionService = conversionService;
+    }
 
     @PostMapping
     public ResponseEntity<UserDto> saveUser(@Valid @RequestBody UserDto userDto) {

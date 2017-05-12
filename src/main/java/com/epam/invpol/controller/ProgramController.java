@@ -27,14 +27,18 @@ import javax.validation.Valid;
 @RequestMapping("/programs")
 public class ProgramController {
 
-    @Autowired
-    private ProgramService programService;
+    private final ProgramService programService;
+
+    private final ConversionService conversionService;
+
+    private final Converter<Program, ProgramDto> programConverter;
 
     @Autowired
-    private ConversionService conversionService;
-
-    @Autowired
-    private Converter<Program, ProgramDto> programConverter;
+    public ProgramController(ProgramService programService, ConversionService conversionService, Converter<Program, ProgramDto> programConverter) {
+        this.programService = programService;
+        this.conversionService = conversionService;
+        this.programConverter = programConverter;
+    }
 
     @PostMapping
     public ResponseEntity<ProgramDto> createProgram(@Valid @RequestBody ProgramDto programDto) {

@@ -27,14 +27,18 @@ import javax.validation.Valid;
 @RequestMapping("/employees")
 public class EmployeeController {
 
-    @Autowired
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
+
+    private final ConversionService conversionService;
+
+    private final Converter<Employee, EmployeeDto> employeeConverter;
 
     @Autowired
-    private ConversionService conversionService;
-
-    @Autowired
-    private Converter<Employee, EmployeeDto> employeeConverter;
+    public EmployeeController(EmployeeService employeeService, ConversionService conversionService, Converter<Employee, EmployeeDto> employeeConverter) {
+        this.employeeService = employeeService;
+        this.conversionService = conversionService;
+        this.employeeConverter = employeeConverter;
+    }
 
     @PostMapping
     public ResponseEntity<EmployeeDto> saveEmployee(@Valid @RequestBody EmployeeDto employeeDto) {

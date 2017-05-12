@@ -27,14 +27,18 @@ import javax.validation.Valid;
 @RequestMapping("/departments")
 public class DepartmentController {
 
-    @Autowired
-    private DepartmentService departmentService;
+    private final DepartmentService departmentService;
+
+    private final ConversionService conversionService;
+
+    private final Converter<Department, DepartmentDto> departmentConverter;
 
     @Autowired
-    private ConversionService conversionService;
-
-    @Autowired
-    private Converter<Department, DepartmentDto> departmentConverter;
+    public DepartmentController(DepartmentService departmentService, ConversionService conversionService, Converter<Department, DepartmentDto> departmentConverter) {
+        this.departmentService = departmentService;
+        this.conversionService = conversionService;
+        this.departmentConverter = departmentConverter;
+    }
 
     @PostMapping
     public ResponseEntity<DepartmentDto> createDepartment(@Valid @RequestBody DepartmentDto departmentDto) {

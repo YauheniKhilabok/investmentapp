@@ -21,14 +21,18 @@ import java.util.Set;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
+    private final EmployeeRepository employeeRepository;
+
+    private final ProgramRepository programRepository;
+
+    private final ServiceHelper serviceHelper;
 
     @Autowired
-    private ProgramRepository programRepository;
-
-    @Autowired
-    private ServiceHelper serviceHelper;
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, ProgramRepository programRepository, ServiceHelper serviceHelper) {
+        this.employeeRepository = employeeRepository;
+        this.programRepository = programRepository;
+        this.serviceHelper = serviceHelper;
+    }
 
     @Override
     @Transactional

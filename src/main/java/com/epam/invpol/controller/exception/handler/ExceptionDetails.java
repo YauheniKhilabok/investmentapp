@@ -9,7 +9,7 @@ public class ExceptionDetails {
     private List<String> errorMessages = new ArrayList<>();
     private Integer errorCode;
 
-    public ExceptionDetails() {
+    ExceptionDetails() {
         super();
     }
 
@@ -22,7 +22,7 @@ public class ExceptionDetails {
         return errorMessages;
     }
 
-    public void setErrorMessages(List<String> errorMessages) {
+    void setErrorMessages(List<String> errorMessages) {
         this.errorMessages = errorMessages;
     }
 
@@ -30,7 +30,7 @@ public class ExceptionDetails {
         return errorCode;
     }
 
-    public void setErrorCode(Integer errorCode) {
+    void setErrorCode(Integer errorCode) {
         this.errorCode = errorCode;
     }
 

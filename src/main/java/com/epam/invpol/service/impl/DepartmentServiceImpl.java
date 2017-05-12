@@ -17,14 +17,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 
-    @Autowired
-    private DepartmentRepository departmentRepository;
+    private final DepartmentRepository departmentRepository;
+
+    private final ServiceHelper serviceHelper;
+
+    private final EmployeeRepository employeeRepository;
 
     @Autowired
-    private ServiceHelper serviceHelper;
-
-    @Autowired
-    private EmployeeRepository employeeRepository;
+    public DepartmentServiceImpl(DepartmentRepository departmentRepository, ServiceHelper serviceHelper, EmployeeRepository employeeRepository) {
+        this.departmentRepository = departmentRepository;
+        this.serviceHelper = serviceHelper;
+        this.employeeRepository = employeeRepository;
+    }
 
     @Override
     @Transactional

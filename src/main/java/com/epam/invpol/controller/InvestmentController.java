@@ -27,14 +27,18 @@ import javax.validation.Valid;
 @RequestMapping("/investments")
 public class InvestmentController {
 
-    @Autowired
-    private InvestmentService investmentService;
+    private final InvestmentService investmentService;
+
+    private final ConversionService conversionService;
+
+    private final Converter<Investment, InvestmentDto> investmentConverter;
 
     @Autowired
-    private ConversionService conversionService;
-
-    @Autowired
-    private Converter<Investment, InvestmentDto> investmentConverter;
+    public InvestmentController(InvestmentService investmentService, ConversionService conversionService, Converter<Investment, InvestmentDto> investmentConverter) {
+        this.investmentService = investmentService;
+        this.conversionService = conversionService;
+        this.investmentConverter = investmentConverter;
+    }
 
     @PostMapping
     public ResponseEntity<InvestmentDto> saveInvestment(@Valid @RequestBody InvestmentDto investmentDto) {

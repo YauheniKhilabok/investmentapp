@@ -15,11 +15,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ProgramServiceImpl implements ProgramService {
 
-    @Autowired
-    private ProgramRepository programRepository;
+    private final ProgramRepository programRepository;
+
+    private final ServiceHelper serviceHelper;
 
     @Autowired
-    private ServiceHelper serviceHelper;
+    public ProgramServiceImpl(ProgramRepository programRepository, ServiceHelper serviceHelper) {
+        this.programRepository = programRepository;
+        this.serviceHelper = serviceHelper;
+    }
 
     @Override
     @Transactional

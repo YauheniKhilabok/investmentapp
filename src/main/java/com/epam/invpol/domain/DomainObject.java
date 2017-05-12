@@ -19,7 +19,7 @@ public abstract class DomainObject<T extends Serializable> implements Serializab
     public DomainObject() {
     }
 
-    public DomainObject(T id) {
+    DomainObject(T id) {
         this.id = id;
     }
 

@@ -22,7 +22,7 @@ public class Employee extends DomainObject<Long> implements Serializable{
     @Column(name = "surname", nullable = false, length = 45)
     private String surname;
 
-    @Column(name = "patronymic", nullable = true, length = 45)
+    @Column(name = "patronymic", length = 45)
     private String patronymic;
 
     @Column(name = "position", nullable = false, length = 100)

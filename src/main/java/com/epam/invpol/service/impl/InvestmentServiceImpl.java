@@ -15,11 +15,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class InvestmentServiceImpl implements InvestmentService {
 
-    @Autowired
-    private InvestmentRepository investmentRepository;
+    private final InvestmentRepository investmentRepository;
+
+    private final ServiceHelper serviceHelper;
 
     @Autowired
-    private ServiceHelper serviceHelper;
+    public InvestmentServiceImpl(InvestmentRepository investmentRepository, ServiceHelper serviceHelper) {
+        this.investmentRepository = investmentRepository;
+        this.serviceHelper = serviceHelper;
+    }
 
     @Override
     @Transactional

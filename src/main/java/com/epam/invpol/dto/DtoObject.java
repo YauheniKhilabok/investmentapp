@@ -8,10 +8,10 @@ import java.io.Serializable;
 public abstract class DtoObject<T extends Serializable> {
     private T id;
 
-    public DtoObject() {
+    DtoObject() {
     }
 
-    public DtoObject(T id) {
+    DtoObject(T id) {
         this.id = id;
     }
 
