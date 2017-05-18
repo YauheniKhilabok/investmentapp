@@ -1,0 +1,51 @@
+<button type="button" translate="button_show_comments"
+        ng-click="$ctrl.getListOfComments($ctrl.newsId)"
+        class="btn btn-success btn-sm">
+</button>
+<div ng-show="$ctrl.isShowComments == true" class="hide-text">
+    <hr>
+    <h5 translate="comment_message"></h5>
+    <form name="commentCreateForm">
+        <div class="form-group">
+                <textarea class="form-control" rows="4" name="text"
+                          ng-model="$ctrl.comment.text" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-success btn-sm" translate="button_save"
+                ng-click="$ctrl.save($ctrl.newsId)"></button>
+        <button type="submit" class="btn btn-primary btn-sm" translate="button_reset" ng-click="$ctrl.reset()"></button>
+    </form>
+    <hr>
+    <br>
+    <p><span class="badge" ng-bind="$ctrl.numberOfComments"></span>&nbsp;<span translate="comments_title"></span></p>
+    <br>
+    <div class="row">
+        <div class="col-sm-12" ng-repeat="comment in $ctrl.listOfComments">
+            <h4>
+                <small translate="comment_add_time"></small>
+                <small ng-bind="comment.dateTimeOfCreation | dateFilter"></small>
+            </h4>
+            <span class="glyphicon glyphicon-user"></span>&nbsp;<span ng-bind="comment.text"></span>
+            <div>
+                <br>
+                <button type="button" translate="button_update"
+                        ng-click="$ctrl.openUpdateModal(comment.id)"
+                        class="btn btn-warning btn-xs">
+                </button>
+                <button type="button" translate="button_delete"
+                        ng-click="$ctrl.openDeleteModal(comment.id)"
+                        class="btn btn-danger btn-xs">
+                </button>
+            </div>
+            <br>
+            <br>
+        </div>
+        <div ng-hide="$ctrl.numberOfComments <= $ctrl.limit">
+            <ul uib-pagination boundary-links="true"
+                max-size="5"
+                total-items="$ctrl.numberOfComments"
+                ng-model="$ctrl.pageNumber"
+                items-per-page="$ctrl.limit"
+                ng-change="$ctrl.pageChanged($ctrl.newsId)"></ul>
+        </div>
+    </div>
+</div>

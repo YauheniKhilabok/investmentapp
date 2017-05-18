@@ -1,0 +1,12 @@
+<div class="modal-body" ng-show="$ctrl.error == null">
+    <span translate="delete_question" class="question-style"></span>
+    <div class="modal-footer">
+        <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()" translate="button_cancel"></button>
+        <button class="btn btn-primary" type="button" ng-click="$ctrl.delete()" translate="button_delete"></button>
+    </div>
+</div>
+<div class="alert alert-danger" role="alert" ng-show="$ctrl.error != null">
+    <i><a
+            class="remove glyphicon glyphicon-remove-sign glyphicon-black cursor-style"
+            ng-click="$ctrl.cancel()"></a></i>&nbsp;&nbsp;<span ng-bind="$ctrl.error"></span>
+</div>

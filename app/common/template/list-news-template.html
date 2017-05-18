@@ -1,0 +1,110 @@
+<div class="col-sm-9">
+    <div class="list-news">
+        <br>
+        <div class="alert alert-danger" role="alert" ng-show="$ctrl.error != null">
+            <span ng-bind="$ctrl.error"></span>
+            <button type="button" translate="button_back" ui-sref="getAll({page:'1', limit:'5'})"
+                    class="btn btn-primary btn-sm">
+            </button>
+        </div>
+        <br>
+        <br>
+        <div ng-show="$ctrl.error == null">
+            <br>
+            <div ng-hide="$ctrl.totalItems < $ctrl.itemsPerPage">
+                <ul uib-pagination boundary-links="true"
+                    max-size="8"
+                    total-items="$ctrl.totalItems"
+                    ng-model="$ctrl.currentPage"
+                    items-per-page="$ctrl.itemsPerPage"
+                    ng-change="$ctrl.pageChanged()"></ul>
+            </div>
+            <br>
+            <div class="create-button">
+                <button type="button" translate="button_share"
+                        ng-click="$ctrl.openCreateModal()"
+                        class="btn btn-success">
+                </button>
+            </div>
+            <br>
+            <h2>
+                <small translate="news_title"></small>
+            </h2>
+            <h4 ng-show="$ctrl.listOfNewsSize == 0"><span translate="empty_list_message"></span></h4>
+            <div ng-repeat="news in $ctrl.listOfNews | orderBy:'news.dateTimeOfCreation':false"
+                 id="list">
+                <div class="news-style">
+                    <h3><span class="glyphicon glyphicon-edit"
+                              ng-show="news.dateTimeOfUpdate != null"></span> <span ng-bind="news.title"></span>
+                    </h3>
+                    <h5><span class="glyphicon glyphicon-time"></span>
+                        <span translate="published_message"></span> <span
+                                ng-bind="news.dateTimeOfCreation | date:'HH:mm'"></span></h5>
+                    <h5><span class="glyphicon glyphicon-pencil"></span>
+                        <span translate="author_title"></span>:
+                        <span ng-repeat="author in news.authors">
+                                <span ng-bind="author.name"></span>;&nbsp;
+                            </span>
+                    </h5>
+                    <p><span ng-bind="news.briefContent"></span></p>
+                    <p><span translate="comments_title"></span> <span class="badge"
+                                                                      ng-bind="news.numberOfComments"></span>&nbsp;
+                    </p>
+                    <div class="button">
+                        <a class="btn btn-info btn-sm" ui-sref="get({id: news.id})"
+                           translate="button_detail"></a>
+                        <button type="button" translate="button_update"
+                                ng-click="$ctrl.openUpdateModal(news.id)"
+                                class="btn btn-warning btn-sm">
+                        </button>
+                        <button type="button" translate="button_delete"
+                                ng-click="$ctrl.openDeleteModal(news.id)"
+                                class="btn btn-danger btn-sm">
+                        </button>
+                    </div>
+                </div>
+                <br>
+                <br>
+            </div>
+            <div ng-hide="$ctrl.totalItems < $ctrl.itemsPerPage">
+                <div class="col-xs-2">
+                    <small><label for="currentPage" translate="current_page_title"></label></small>
+                    <input class="form-control" id="currentPage" type="text"
+                           ng-model="$ctrl.currentPage"
+                           ng-keyup="$ctrl.pageChanged()">
+                </div>
+                <div class="col-xs-2">
+                    <small><label for="itemsPerPage"
+                                  translate="items_per_page_title"></label></small>
+                    <select class="form-control" name="itemsPerPage" id="itemsPerPage" ng-model="$ctrl.itemsPerPage"
+                            ng-change="$ctrl.limitChanged()">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        <option value="25">25</option>
+                    </select>
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <div class="pagination-error-message" ng-show="$ctrl.currentPageNotValid != null">
+                    {{$ctrl.currentPageNotValid}}
+                </div>
+                <div class="pagination-error-message" ng-show="$ctrl.itemsPerPageNotValid != null">
+                    {{$ctrl.itemsPerPageNotValid}}
+                </div>
+                <ul uib-pagination boundary-links="true"
+                    max-size="8"
+                    total-items="$ctrl.totalItems"
+                    ng-model="$ctrl.currentPage"
+                    items-per-page="$ctrl.itemsPerPage"
+                    ng-change="$ctrl.pageChanged()"></ul>
+            </div>
+        </div>
+        <br>
+    </div>
+</div>

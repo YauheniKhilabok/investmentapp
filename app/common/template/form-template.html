@@ -1,0 +1,90 @@
+<div ng-show="$ctrl.error == null" class="modal-body" id="modal-body">
+    <form name="newsForm" ng-submit="submitForm()" novalidate>
+        <div ng-class="{ 'has-error' : newsForm.title.$invalid && !newsForm.title.$pristine }">
+            <label class="control-label" for="titleId" translate="title_field"></label>
+            <input class="form-control" type="text" id="titleId" name="title" ng-model="$ctrl.news.title"
+                   ng-minlength="1"
+                   ng-maxlength="120" ng-required="true">
+
+            <p ng-show="newsForm.title.$invalid && !newsForm.title.$pristine" class="help-block"
+               translate="field_required_message"></p>
+
+            <p ng-show="newsForm.title.$error.minlength" class="help-block" translate="field_short_message"></p>
+
+            <p ng-show="newsForm.title.$error.maxlength" class="help-block" translate="field_long_message"></p>
+        </div>
+        <div ng-class="{ 'has-error' : newsForm.briefContent.$invalid && !newsForm.briefContent.$pristine }">
+            <label class="control-label" for="briefContentId" translate="brief_content_field"></label>
+            <textarea class="form-control" rows="3" id="briefContentId" name="briefContent"
+                      ng-model="$ctrl.news.briefContent"
+                      ng-minlength="1" ng-maxlength="360" ng-required="true"></textarea>
+
+            <p ng-show="newsForm.briefContent.$invalid && !newsForm.briefContent.$pristine" class="help-block"
+               translate="field_required_message"></p>
+
+            <p ng-show="newsForm.briefContent.$error.minlength" class="help-block" translate="field_short_message"></p>
+
+            <p ng-show="newsForm.briefContent.$error.maxlength" class="help-block" translate="field_long_message"></p>
+        </div>
+        <div ng-class="{ 'has-error' : newsForm.text.$invalid && !newsForm.text.$pristine }">
+            <label class="control-label" for="textId" translate="text_news_field"></label>
+            <textarea class="form-control" rows="6" id="textId" name="text" ng-model="$ctrl.news.text"
+                      ng-required="true"></textarea>
+
+            <p ng-show="newsForm.text.$invalid && !newsForm.text.$pristine" class="help-block"
+               translate="field_required_message"></p>
+        </div>
+        <br>
+        <div class="input-group">
+            <input type="text" id="authorName" class="form-control" ng-model="$ctrl.selectedAuthor"
+                   uib-typeahead="state.name for state in $ctrl.findAuthorsByName($viewValue)"
+                   typeahead-wait-ms="500"
+                   typeahead-on-select="$ctrl.formListWithSelectedAuthors($item)"
+                   placeholder="{{ 'author_name' | translate }}" autocomplete="off">
+            <span class="input-group-btn">
+          <button class="btn btn-default" type="button">
+            <span class="glyphicon glyphicon-search"></span>
+          </button>
+        </span>
+        </div>
+        <br>
+        <div class="form-group">
+            <span ng-repeat="author in $ctrl.listWithSelectedAuthors">{{author.name}}
+                <a ng-click="$ctrl.deleteAuthorsFromList(author.id)"><i
+                        class="remove glyphicon glyphicon-remove-sign glyphicon-black"></i></a>&nbsp;&nbsp;</span>
+            <span class="create-news-error-message-color" ng-show="$ctrl.createNewsErrorMessage != null">
+                {{$ctrl.createNewsErrorMessage}}
+            </span>
+        </div>
+        <br>
+        <div class="input-group">
+            <input type="text" id="tagName" class="form-control" ng-model="$ctrl.selectedTag"
+                   uib-typeahead="state.name for state in $ctrl.findTagsByName($viewValue)"
+                   typeahead-wait-ms="500"
+                   typeahead-on-select="$ctrl.formListWithSelectedTags($item)"
+                   placeholder="{{ 'tag_name' | translate }}" autocomplete="off">
+            <span class="input-group-btn">
+          <button class="btn btn-default" type="button">
+            <span class="glyphicon glyphicon-search"></span>
+          </button>
+        </span>
+        </div>
+        <br>
+        <div class="form-group">
+            <span ng-repeat="tag in $ctrl.listWithSelectedTags">{{tag.name}}
+                <a ng-click="$ctrl.deleteTagsFromList(tag.id)"><i
+                        class="remove glyphicon glyphicon-remove-sign glyphicon-black"></i></a>&nbsp;&nbsp;</span>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()" translate="button_cancel"></button>
+            <button class="btn btn-warning" type="button" ng-click="$ctrl.reset()" translate="button_reset"></button>
+            <button ng-show="$ctrl.news.id == null" class="btn btn-primary" type="submit" ng-click="$ctrl.save()"
+                    translate="button_save" ng-disabled="newsForm.$invalid"></button>
+            <button ng-show="$ctrl.news.id != null" class="btn btn-primary" type="submit" ng-click="$ctrl.update()"
+                    translate="button_update" ng-disabled="newsForm.$invalid"></button>
+        </div>
+    </form>
+</div>
+<div class="alert alert-danger" role="alert" ng-show="$ctrl.error != null">
+    <span ng-bind="$ctrl.error"></span>
+</div>

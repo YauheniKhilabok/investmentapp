@@ -1,0 +1,111 @@
+<div class="col-sm-3 sidenav hide-text">
+    <br>
+    <nh-filter-news list-of-tags="$ctrl.listOfTags" list-of-authors="$ctrl.listOfAuthors"></nh-filter-news>
+    <br>
+    <br>
+    <button ng-show="$ctrl.isShowAllTags == false" type="submit" class="btn btn-xs btn-success"
+            translate="button_show_all_tags"
+            ng-click="$ctrl.showAllTags()"></button>
+    <button ng-show="$ctrl.isShowAllTags == true" type="submit" class="btn btn-xs btn-success"
+            translate="button_show_top_tags"
+            ng-click="$ctrl.showTopTags()"></button>
+    <div id="top-tags" ng-hide="$ctrl.isShowAllTags == true">
+        <h4 translate="tag_title"></h4>
+        <h5><span ng-repeat="tag in $ctrl.listOfTags | limitTo: 10">
+        <span class="label label-default">{{tag.name}}&nbsp;({{tag.numberOfMarkedNews}})</span>
+        <br><br>
+    </span></h5>
+    </div>
+    <br>
+    <div id="all-tags" class="component-scroll-size" ng-show="$ctrl.isShowAllTags == true">
+        <h4 translate="tags_title"></h4>
+        <table class="table table-striped">
+            <tbody>
+            <tr ng-repeat="tag in $ctrl.listOfTags">
+                <td><h5><span class="label label-default">{{tag.name}}&nbsp;({{tag.numberOfMarkedNews}})</span>
+                </h5></td>
+                <td>
+                    <i><a class="remove glyphicon glyphicon-remove-sign glyphicon-black cursor-style"
+                          ng-click="$ctrl.openDeleteTagModal(tag.id)"></a></i>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div>
+            <button type="submit" class="btn btn-info btn-xs"
+                    ng-click="$ctrl.loadMoreTags()"><span
+                    translate="button_show_more"></span>&nbsp;<span class="glyphicon glyphicon-download-alt"></span></button>
+        </div>
+    </div>
+    <div id="create-tag">
+        <form name="tagCreateForm">
+            <div class="form-group">
+                <label for="tagName" translate="tag_name"></label>
+                <input type="text" class="form-control" id="tagName" ng-model="$ctrl.tag.name" maxlength="79"
+                       autocomplete="off" required>
+            </div>
+            <button type="reset" class="btn btn-xs btn-primary" translate="button_reset"
+                    ng-click="$ctrl.resetTag()"></button>
+            <button type="submit" class="btn btn-xs btn-primary" translate="button_save"
+                    ng-click="$ctrl.saveTag()"></button>
+        </form>
+        <small class="create-message-color" ng-bind="$ctrl.createTagMessage"></small>
+    </div>
+    <br>
+    <br>
+    <button ng-show="$ctrl.isShowAllAuthors == false" type="submit" class="btn btn-xs btn-success"
+            translate="button_show_all_authors"
+            ng-click="$ctrl.showAllAuthors()"></button>
+    <button ng-show="$ctrl.isShowAllAuthors == true" type="submit" class="btn btn-xs btn-success"
+            translate="button_show_top_authors"
+            ng-click="$ctrl.showTopAuthors()"></button>
+    <div id="top-authors" ng-hide="$ctrl.isShowAllAuthors == true">
+        <h4 translate="author_top_title"></h4>
+        <h5><span ng-repeat="author in $ctrl.listOfAuthors | limitTo: 10">
+        <span class="label label-default">{{author.name}}&nbsp;({{author.numberOfPublishedNews}})</span>
+        <br><br>
+    </span></h5>
+    </div>
+    <div id="all-authors" class="component-scroll-size" ng-show="$ctrl.isShowAllAuthors == true">
+        <h4 translate="authors_title"></h4>
+        <table class="table table-striped">
+            <tbody>
+            <tr ng-repeat="author in $ctrl.listOfAuthors">
+                <td><h5><span
+                        class="label label-default">{{author.name}}&nbsp;({{author.numberOfPublishedNews}})</span>
+                </h5></td>
+                <td>
+                    <i><a class="remove glyphicon glyphicon-remove-sign glyphicon-black cursor-style"
+                          ng-click="$ctrl.openDeleteAuthorModal(author.id)"></a></i>
+                </td>
+                <td>
+                    <i><a class="glyphicon glyphicon-pencil glyphicon-black cursor-style"
+                          ng-click="$ctrl.openUpdateAuthorModal(author.id)"></a></i>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div>
+            <button type="submit" class="btn btn-info btn-xs"
+                    ng-click="$ctrl.loadMoreAuthors()"><span
+                    translate="button_show_more"></span>&nbsp;<span class="glyphicon glyphicon-download-alt"></span>
+            </button>
+        </div>
+    </div>
+    <br>
+    <div id="create-author">
+        <form name="authorCreateForm">
+            <div class="form-group">
+                <label for="authorName" translate="author_name"></label>
+                <input type="text" class="form-control" id="authorName" ng-model="$ctrl.author.name"
+                       maxlength="59"
+                       autocomplete="off" required>
+            </div>
+            <button type="reset" class="btn btn-xs btn-primary" translate="button_reset"
+                    ng-click="$ctrl.resetAuthor()"></button>
+            <button type="submit" class="btn btn-xs btn-primary" translate="button_save"
+                    ng-click="$ctrl.saveAuthor()"></button>
+        </form>
+        <small class="create-message-color" ng-bind="$ctrl.createAuthorMessage"></small>
+    </div>
+</div>

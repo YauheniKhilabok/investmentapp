@@ -1,0 +1,52 @@
+<div class="input-group">
+    <input type="text" id="tagName" class="form-control" ng-model="$ctrl.selectedTag"
+           uib-typeahead="state.name for state in $ctrl.findTagsByName($viewValue)"
+           typeahead-wait-ms="500"
+           typeahead-on-select="$ctrl.formListWithSelectedTags($item)"
+           placeholder="{{ 'filter_by_tags' | translate }}" autocomplete="off">
+    <span class="input-group-btn">
+          <button class="btn btn-default" type="button">
+            <span class="glyphicon glyphicon-search"></span>
+          </button>
+        </span>
+</div>
+<br>
+<div id="filterTagsParams" ng-show="$ctrl.tagsFilterParam.length > 0">
+    <small translate="by_tags"></small>
+    <br>
+    <div ng-repeat="param in $ctrl.tagsFilterParam">
+         <span class="tag label label-info">
+  <span ng-bind="param.name"></span>
+  <a ng-click="$ctrl.updateTagsFilterParam(param.id)"><i
+          class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a></span>
+    </div>
+    <br>
+</div>
+<div class="input-group">
+    <input type="text" id="authorName" class="form-control" ng-model="$ctrl.selectedAuthor"
+           uib-typeahead="state.name for state in $ctrl.findAuthorsByName($viewValue)"
+           typeahead-wait-ms="500"
+           typeahead-on-select="$ctrl.formListWithSelectedAuthors($item)"
+           placeholder="{{ 'filter_by_authors' | translate }}" autocomplete="off">
+    <span class="input-group-btn">
+          <button class="btn btn-default" type="button">
+            <span class="glyphicon glyphicon-search"></span>
+          </button>
+        </span>
+</div>
+<br>
+<div id="filterAuthorsParams" ng-show="$ctrl.authorsFilterParam.length > 0">
+    <small translate="by_authors"></small>
+    <br>
+    <div ng-repeat="param in $ctrl.authorsFilterParam">
+        <span class="tag label label-info">
+  <span ng-bind="param.name"></span>
+  <a ng-click="$ctrl.updateAuthorsFilterParam(param.id)"><i
+          class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a></span>
+    </div>
+    <br>
+    <br>
+</div>
+<button type="submit" class="btn btn-primary btn-xs" ng-click="$ctrl.resetFilterParams()"
+        translate="clean_button"></button>
+<br>

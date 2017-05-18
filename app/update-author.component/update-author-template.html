@@ -1,0 +1,28 @@
+<div class="modal-body" id="modal-body" ng-show="$ctrl.error == null">
+    <form name="updateAuthorForm" ng-submit="submitForm()" novalidate>
+        <div ng-class="{ 'has-error' : updateAuthorForm.name.$invalid && !updateAuthorForm.name.$pristine }">
+            <label class="control-label" for="nameId" translate="name_field"></label>
+            <input class="form-control" type="text" id="nameId" name="name" ng-model="$ctrl.author.name"
+                   ng-minlength="1"
+                   ng-maxlength="60" ng-required="true">
+
+            <p ng-show="updateAuthorForm.name.$invalid && !updateAuthorForm.name.$pristine" class="help-block"
+               translate="field_required_message"></p>
+
+            <p ng-show="updateAuthorForm.name.$error.minlength" class="help-block" translate="field_short_message"></p>
+
+            <p ng-show="updateAuthorForm.name.$error.maxlength" class="help-block" translate="field_long_message"></p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()" translate="button_cancel"></button>
+            <button class="btn btn-warning" type="button" ng-click="$ctrl.reset()" translate="button_reset"></button>
+            <button class="btn btn-primary" type="submit" ng-click="$ctrl.update()"
+                    translate="button_update" ng-disabled="updateAuthorForm.$invalid"></button>
+        </div>
+    </form>
+</div>
+<div class="alert alert-danger" role="alert" ng-show="$ctrl.error != null">
+    &nbsp;<i><a
+        class="remove glyphicon glyphicon-remove-sign glyphicon-black cursor-style"
+        ng-click="$ctrl.cancel()"></a></i>&nbsp;&nbsp;<span ng-bind="$ctrl.error"></span>
+</div>

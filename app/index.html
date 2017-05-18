@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru" ng-app="newsHubApp">
+<head>
+    <title translate="title"></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style/app.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="dist/bundle.js"></script>
+</head>
+<body>
+<nh-header></nh-header>
+<div class="container-fluid main">
+    <div class="row content">
+        <nh-sidebar></nh-sidebar>
+        <div ui-view></div>
+    </div>
+</div>
+<footer class="container-fluid text-center header-footer">
+    <p>News Hub &copy; 2016</p>
+</footer>
+</body>
+</html>
